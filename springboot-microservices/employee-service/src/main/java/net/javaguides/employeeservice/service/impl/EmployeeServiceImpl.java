@@ -8,6 +8,7 @@ import net.javaguides.employeeservice.dto.DepartmentDto;
 import net.javaguides.employeeservice.dto.EmployeeDto;
 import net.javaguides.employeeservice.dto.OrganizationDto;
 import net.javaguides.employeeservice.entity.Employee;
+import net.javaguides.employeeservice.exception.ResourceNotFoundException;
 import net.javaguides.employeeservice.mapper.EmployeeMapper;
 import net.javaguides.employeeservice.repository.EmployeeRepository;
 import net.javaguides.employeeservice.service.APIClient;
@@ -49,7 +50,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public APIResponseDto getEmployeeById(Long employeeId) {
 
         LOGGER.info("inside getEmployeeById() method");
-        Employee employee = employeeRepository.findById(employeeId).get();
+        Employee employee = employeeRepository.findById(employeeId).orElseThrow(() -> new ResourceNotFoundException("Employee", "id", employeeId.longValue()));
 
 //        ResponseEntity<DepartmentDto> responseEntity = restTemplate.getForEntity("http://DEPARTMENT-SERVICE/api/departments/" + employee.getDepartmentCode(),
 //                DepartmentDto.class);
